@@ -100,7 +100,7 @@
   </style>
 </head>
 <body>
-  <h2>Registro de Doctorrrrrrrrrrrrrrr</h2>
+  <h2>Registro de Doctor</h2>
 
   <!-- Formulario de Registro -->
   <form id="doctorForm">
@@ -146,11 +146,11 @@
         const database = getDatabase(app);
         window.crearDoctor= function () {
                 const nombre = document.getElementById("nombre").value;
-                const apellido = document.getElementById("especialidad").value;
+                const especialidad = document.getElementById("especialidad").value;
                 const direccion = document.getElementById("direccion").value;
                 const telefono = document.getElementById("telefono").value;
                 const correo=document.getElementById("correo").value;
-                console.log(nombre, apellido, edad, direccion, telefono);
+                console.log(nombre, especialidad, direccion, telefono);
                 push(
                     ref(database, 'Naim'),
                     {
