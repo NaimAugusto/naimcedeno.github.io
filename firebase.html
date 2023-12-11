@@ -120,6 +120,9 @@
       <input type="email" id="correo" name="correo">
   
       <button type="button" onclick="crearDoctor()">Registrar</button>
+      <button type="button" onclick="editarDoctor()">Editar</button>
+      <button type="button" onclick="EleminarDoctor()">Eleminar</button>
+
   </form>
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -169,7 +172,7 @@
             });
         }
             
-            window.actualizarRegistro = function () {
+            window.editarDoctor = function () {
                 const registroId = document.getElementById("idOpciones").value;
 
                 if (!registroId) {
@@ -195,7 +198,7 @@
                 console.log("Registro actualizado con éxito.");
             }
 
-            window.eliminarRegistro = function () {
+            window.eliminarDoctor = function () {
                 const registroId = document.getElementById("idOpciones").value;
                 if (!registroId) {
                     console.log("Por favor, ingresa un ID válido para eliminar el registro.");
