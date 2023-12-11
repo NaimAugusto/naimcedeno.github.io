@@ -104,6 +104,9 @@
 
   <!-- Formulario de Registro -->
   <form id="doctorForm">
+      <label for="id">id</label>
+      <input type="text" name="" id="id">
+      
       <label for="nombre">Nombre:</label>
       <input type="text" id="nombre" name="nombre" required>
   
@@ -180,15 +183,15 @@
                 }
 
                 const nombre = document.getElementById("nombre").value;
-                const apellido = document.getElementById("apellido").value;
-                const edad = document.getElementById("edad").value;
+                const especialidad = document.getElementById("especialidad").value;
                 const direccion = document.getElementById("direccion").value;
                 const telefono = document.getElementById("telefono").value;
+                const mail = document.getElementById("correo").value;
+
 
                 const updates = {
                     name: nombre,
-                    lastname: apellido,
-                    age: edad,
+                    specialty: especialidad,
                     address: direccion,
                     telephone: telefono,
                     mail:correo
