@@ -141,12 +141,12 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-        window.crearRegistro = function () {
+        window.crearDoctor= function () {
                 const nombre = document.getElementById("nombre").value;
-                const apellido = document.getElementById("apellido").value;
-                const edad = document.getElementById("edad").value;
+                const apellido = document.getElementById("especialidad").value;
                 const direccion = document.getElementById("direccion").value;
                 const telefono = document.getElementById("telefono").value;
+                const correo=document.getElementById("correo").value;
                 console.log(nombre, apellido, edad, direccion, telefono);
                 push(
                     ref(database, 'Naim'),
@@ -155,7 +155,8 @@
                         lastname: apellido,
                         age: edad,
                         address:direccion,
-                        telephone:telefono
+                        telephone:telefono,
+                        mail:correo
                     }
                 );
             }
@@ -187,7 +188,8 @@
                     lastname: apellido,
                     age: edad,
                     address: direccion,
-                    telephone: telefono
+                    telephone: telefono,
+                    mail:correo
                 };
                 update(ref(database, 'Naim/${registroId}'), updates);
                 console.log("Registro actualizado con éxito.");
