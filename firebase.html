@@ -47,6 +47,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         table {
             width: 90%;
             border-collapse: collapse;
@@ -63,6 +64,7 @@
             background-color: #000000;
             color: white;
         }
+
         button {
             background-color: #4caf50;
             color: white;
@@ -74,20 +76,16 @@
             transition: background-color 0.3s ease;
         }
 
-
         @media (max-width: 600px) {
-                #tabla th, #tabla td {
-                    width: 100%; 
-                    display: block;
-                }
+            table {
+                width: 100%;
             }
 
-            @media (max-width: 600px) {
-                #tablaRegistros th, #tablaRegistros td {
-                    width: 100%; /* Establecer el ancho al 100% en pantallas pequeñas */
-                    display: block;
-                }
+            th, td {
+                width: 100%;
+                display: block;
             }
+        }
     </style>
 </head>
 
@@ -123,6 +121,7 @@
                 <th>Dirección</th>
                 <th>Teléfono</th>
                 <th>Correo Electrónico</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody id="bodyTablaDoctores"></tbody>
