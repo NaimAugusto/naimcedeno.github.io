@@ -7,6 +7,116 @@
     <title>Registro de Doctor</title>
     <style>
         /* Estilos CSS ... (tu código CSS sigue aquí) */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        li strong {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        li p {
+            margin: 0;
+            color: #555;
+        }
+
+        li button {
+            background-color: #d9534f;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        li button:hover {
+            background-color: #c9302c;
+        }
     </style>
 </head>
 
@@ -54,7 +164,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
         import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
-        // Configuración de Firebase (reemplaza con tu propia configuración)
+        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "your-api-key",
             authDomain: "pruebasep-97ecc.firebaseapp.com",
@@ -66,13 +176,13 @@
             measurementId: "G-L7005Z6GJ9"
         };
 
-        // Inicializa Firebase
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
         let doctorIdToEdit = null;
 
-        // Función para crear o actualizar un doctor
+        // Function to create or update a doctor
         window.crearDoctor = function () {
             const nombre = document.getElementById("nombre").value;
             const especialidad = document.getElementById("especialidad").value;
@@ -81,7 +191,7 @@
             const correo = document.getElementById("correo").value;
 
             if (doctorIdToEdit) {
-                // Actualizar doctor existente
+                // Updating existing doctor
                 update(ref(database, `doctores/${doctorIdToEdit}`), {
                     nombre: nombre,
                     especialidad: especialidad,
@@ -90,8 +200,10 @@
                     correo: correo
                 });
                 doctorIdToEdit = null;
+                // Change the button text back to "Registrar"
+                document.querySelector("button").innerText = "Registrar";
             } else {
-                // Crear un nuevo doctor
+                // Creating a new doctor
                 push(ref(database, 'doctores'), {
                     nombre: nombre,
                     especialidad: especialidad,
@@ -101,11 +213,11 @@
                 });
             }
 
-            // Limpiar el formulario después de crear o actualizar un doctor
+            // Clear the form after creating or updating a doctor
             limpiarFormulario();
         }
 
-        // Función para llenar los campos del formulario al editar un doctor
+        // Function to fill the form fields when editing a doctor
         window.editarDoctor = function (id) {
             doctorIdToEdit = id;
             const databaseRef = ref(database, `doctores/${id}`);
@@ -117,29 +229,31 @@
                     document.getElementById("direccion").value = doctor.direccion || "";
                     document.getElementById("telefono").value = doctor.telefono || "";
                     document.getElementById("correo").value = doctor.correo || "";
+                    // Change the button text to "Actualizar"
+                    document.querySelector("button").innerText = "Actualizar";
                 }
             });
         }
 
-        // Función para eliminar un doctor
+        // Function to delete a doctor
         window.eliminarDoctor = function (id) {
             const confirmacion = confirm("¿Está seguro de eliminar este doctor?");
             if (confirmacion) {
                 remove(ref(database, `doctores/${id}`));
-                // Limpiar el formulario después de eliminar un doctor
+                // Clear the form after deleting a doctor
                 limpiarFormulario();
                 doctorIdToEdit = null;
+                // Change the button text back to "Registrar"
+                document.querySelector("button").innerText = "Registrar";
             }
         }
 
-        // Función para resetear el formulario
+        // Function to reset the form
         function limpiarFormulario() {
             document.getElementById("doctorForm").reset();
-            // Cambiar el texto del botón de vuelta a "Registrar"
-            document.querySelector("button").innerText = "Registrar";
         }
 
-        // Función para renderizar la lista de doctores en una tabla
+        // Function to render the list of doctors in a table
         function actualizarListaDoctores() {
             const bodyTablaDoctores = document.getElementById("bodyTablaDoctores");
             bodyTablaDoctores.innerHTML = "";
@@ -168,7 +282,7 @@
             });
         }
 
-        // Cargar la lista inicial de doctores
+        // Load initial list of doctors
         actualizarListaDoctores();
     </script>
 
