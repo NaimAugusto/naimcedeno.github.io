@@ -185,32 +185,47 @@
         const telefono = document.getElementById("telefono").value;
         const correo = document.getElementById("correo").value;
 
-        push(ref(database, 'doctores'), {
-            nombre: nombre,
-            especialidad: especialidad,
-            direccion: direccion,
-            telefono: telefono,
-            correo: correo
-        });
+        if (doctorIdToEdit) {
+            // Updating existing doctor
+            update(ref(database, `doctores/${doctorIdToEdit}`), {
+                nombre: nombre,
+                especialidad: especialidad,
+                direccion: direccion,
+                telefono: telefono,
+                correo: correo
+            });
+            doctorIdToEdit = null;
+        } else {
+            // Creating a new doctor
+            push(ref(database, 'doctores'), {
+                nombre: nombre,
+                especialidad: especialidad,
+                direccion: direccion,
+                telefono: telefono,
+                correo: correo
+            });
+        }
 
-        // Clear the form after creating a new doctor
+        // Clear the form after creating or updating a doctor
         document.getElementById("doctorForm").reset();
+        actualizarListaDoctores();
     }
 
-    // Function to update a doctor
+    // Function to fill the form fields when editing a doctor
     window.editarDoctor = function (id) {
-        const nombre = prompt("Ingrese el nuevo nombre:", "");
-        const especialidad = prompt("Ingrese la nueva especialidad:", "");
-        const direccion = prompt("Ingrese la nueva dirección:", "");
-        const telefono = prompt("Ingrese el nuevo teléfono:", "");
-        const correo = prompt("Ingrese el nuevo correo electrónico:", "");
-
-        update(ref(database, `doctores/${id}`), {
-            nombre: nombre,
-            especialidad: especialidad,
-            direccion: direccion,
-            telefono: telefono,
-            correo: correo
+        doctorIdToEdit = id;
+        const databaseRef = ref(database, `doctores/${id}`);
+        onValue(databaseRef, (snapshot) => {
+            const doctor = snapshot.val();
+            if (doctor) {
+                document.getElementById("nombre").value = doctor.nombre || "";
+                document.getElementById("especialidad").value = doctor.especialidad || "";
+                document.getElementById("direccion").value = doctor.direccion || "";
+                document.getElementById("telefono").value = doctor.telefono || "";
+                document.getElementById("correo").value = doctor.correo || "";
+                // Change the button text to "Actualizar"
+                document.querySelector("button").innerText = "Actualizar";
+            }
         });
     }
 
@@ -219,11 +234,15 @@
         const confirmacion = confirm("¿Está seguro de eliminar este doctor?");
         if (confirmacion) {
             remove(ref(database, `doctores/${id}`));
+            actualizarListaDoctores();
+            // Clear the form after deleting a doctor
+            document.getElementById("doctorForm").reset();
+            doctorIdToEdit = null;
         }
     }
 
     // Function to render the list of doctors in a table
-    function actualizarListaDoctores() {
+    window.actualizarListaDoctores() {
         const bodyTablaDoctores = document.getElementById("bodyTablaDoctores");
         bodyTablaDoctores.innerHTML = "";
 
@@ -249,11 +268,13 @@
                 });
             }
         });
+
+        // Change the button text back to "Registrar"
+        document.querySelector("button").innerText = "Registrar";
     }
 
     // Load initial list of doctors
     actualizarListaDoctores();
 </script>
-
 </body>
 </html>
