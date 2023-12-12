@@ -75,14 +75,19 @@
         }
 
 
-        @media only screen and (max-width: 600px) {
-            form {
-                width: 90%; /* Ancho del formulario al 90% en pantallas pequeñas */
+        @media (max-width: 600px) {
+                #tabla th, #tabla td {
+                    width: 100%; 
+                    display: block;
+                }
             }
-            table {
-                width: 90%; /* Ancho de la tabla al 90% en pantallas pequeñas */
+
+            @media (max-width: 600px) {
+                #tablaRegistros th, #tablaRegistros td {
+                    width: 100%; /* Establecer el ancho al 100% en pantallas pequeñas */
+                    display: block;
+                }
             }
-        }
     </style>
 </head>
 
