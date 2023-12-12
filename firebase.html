@@ -3,219 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FormularioDoctor</title>
-    <!-- Add Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <style>
-      body {
-          font-family: 'Arial', sans-serif;
-          background-color: #f4f4f4;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          height: 100vh;
-      }
-
-      h2 {
-          color: #333;
-      }
-
-      form {
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          width: 300px;
-          margin-bottom: 20px;
-      }
-
-      label {
-          display: block;
-          margin-bottom: 8px;
-          color: #333;
-      }
-
-      input {
-          width: 100%;
-          padding: 8px;
-          margin-bottom: 12px;
-          box-sizing: border-box;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-      }
-
-      button {
-          background-color: #4caf50;
-          color: white;
-          padding: 10px 15px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-      }
-
-      button:hover {
-          background-color: #45a049;
-      }
-
-      ul {
-          list-style-type: none;
-          padding: 0;
-          margin: 0;
-      }
-
-      li {
-          background-color: #fff;
-          padding: 15px;
-          margin-bottom: 10px;
-          border-radius: 4px;
-          box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-          display: flex;
-          flex-direction: column;
-      }
-
-      li strong {
-          font-size: 18px;
-          margin-bottom: 8px;
-      }
-
-      li p {
-          margin: 0;
-          color: #555;
-      }
-
-      li button {
-          background-color: #d9534f;
-          color: white;
-          padding: 6px 10px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          margin-top: 8px;
-      }
-
-      li button:hover {
-          background-color: #c9302c;
-      }
-  </style>
+    <title>Document</title>
 </head>
 <body>
-   
-  <h2>Registro de Doctor</h2>
-
-  <!-- Formulario de Registro -->
-  <form id="doctorForm">
-      <label for="id">id</label>
-      <input type="text" name="" id="id">
-      
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre" required>
-  
-      <label for="especialidad">Especialidad:</label>
-      <input type="text" id="especialidad" name="especialidad" required>
-  
-      <label for="direccion">Dirección:</label>
-      <input type="text" id="direccion" name="direccion">
-  
-      <label for="telefono">Teléfono:</label>
-      <input type="tel" id="telefono" name="telefono">
-  
-      <label for="correo">Correo Electrónico:</label>
-      <input type="email" id="correo" name="correo">
-  
-      <button type="button" class="btn btn-success" onclick="crearDoctor()">Registrar</button>
-      <button type="button" class="btn btn-primary" onclick="editarDoctor()">Editar</button>
-      <button type="button" class="btn btn-danger" onclick="eliminarDoctor()">Eliminar</button>
-
-  </form>
+    <h1>Hola a todos .l.</h1>
+    <form id="crud_form">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre">
+        <br>
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido">
+        <br>
+        <label for="edad">Edad</label>
+        <input type="number" id="edad">
+        <br>
+        <label for="direccion">Dirección</label>
+        <input type="text" id="direccion">
+        <br>
+        <label for="telefono">Teléfono</label>
+        <input type="text" id="telefono">
+        <br>
+        <button type="button" onclick="crearRegistro()">Aceptar</button>
+        <br>
+        <label for="idOpciones">Seleccionar ID:</label>
+        <select id="idOpciones">
+            <!-- Options will be dynamically populated if needed -->
+        </select>
+        <br>
+        <button type="button" onclick="leerRegistro()">Leer Registros</button>
+        <button type="button" onclick="actualizarRegistro()">Actualizar Registro</button>
+        <button type="button" onclick="eliminarRegistro()">Eliminar Registro</button>
+    </form>
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+        import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
       
         // Your web app's Firebase configuration
         const firebaseConfig = {
-          apiKey: "your-api-key",
-          authDomain: "pruebasep-97ecc.firebaseapp.com",
-          databaseURL: "https://pruebasep-97ecc-default-rtdb.firebaseio.com/",
-          projectId: "pruebasep-97ecc",
-          storageBucket: "pruebasep-97ecc.appspot.com",
-          messagingSenderId: "374094584102",
-          appId:  "1:374094584102:web:a26de0b0aba01b94de89e7",
-          measurementId:  "G-L7005Z6GJ9"
+            apiKey: "your-api-key",
+            authDomain: "pruebasep-97ecc.firebaseapp.com",
+            databaseURL: "https://pruebasep-97ecc-default-rtdb.firebaseio.com/",
+            projectId: "pruebasep-97ecc",
+            storageBucket: "pruebasep-97ecc.appspot.com",
+            messagingSenderId: "374094584102",
+            appId: "1:374094584102:web:a26de0b0aba01b94de89e7",
+            measurementId: "G-L7005Z6GJ9"
         };
       
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-        window.crearDoctor= function () {
-                const nombre = document.getElementById("nombre").value;
-                const especialidad = document.getElementById("especialidad").value;
-                const direccion = document.getElementById("direccion").value;
-                const telefono = document.getElementById("telefono").value;
-                const correo=document.getElementById("correo").value;
-                console.log(nombre, especialidad, direccion, telefono);
-                push(
-                    ref(database, 'Naim'),
-                    {
-                        name: nombre,
-                        specialty: especialidad,
-                        address:direccion,
-                        telephone:telefono,
-                        mail:correo
-                    }
-                );
-            }
 
-            window.leerRegistro = function () {
+        window.crearRegistro = function () {
+            const nombre = document.getElementById("nombre").value;
+            const apellido = document.getElementById("apellido").value;
+            const edad = document.getElementById("edad").value;
+            const direccion = document.getElementById("direccion").value;
+            const telefono = document.getElementById("telefono").value;
+            console.log(nombre, apellido, edad, direccion, telefono);
+            push(
+                ref(database, 'Naim'),
+                {
+                    name: nombre,
+                    lastname: apellido,
+                    age: edad,
+                    address: direccion,
+                    telephone: telefono
+                }
+            );
+        };
+
+        window.leerRegistro = function () {
             const databaseRef = ref(database, 'Naim');
             onValue(databaseRef, (snapshot) => {
                 const data = snapshot.val();
                 console.log("Registros:", data);
             });
-        }
-            
-            window.editarDoctor = function () {
-                const registroId = document.getElementById("idOpciones").value;
+        };
 
-                if (!registroId) {
-                    console.log("Por favor, ingresa un ID válido para actualizar el registro.");
-                    return;
-                }
+        window.actualizarRegistro = function () {
+            const registroId = document.getElementById("idOpciones").value;
 
-                const nombre = document.getElementById("nombre").value;
-                const especialidad = document.getElementById("especialidad").value;
-                const direccion = document.getElementById("direccion").value;
-                const telefono = document.getElementById("telefono").value;
-                const mail = document.getElementById("correo").value;
-
-
-                const updates = {
-                    name: nombre,
-                    specialty: especialidad,
-                    address: direccion,
-                    telephone: telefono,
-                    mail:correo
-                };
-                update(ref(database, 'Naim/${registroId}'), updates);
-                console.log("Registro actualizado con éxito.");
+            if (!registroId) {
+                console.log("Por favor, ingresa un ID válido para actualizar el registro.");
+                return;
             }
 
-            window.eliminarDoctor = function () {
-                const registroId = document.getElementById("idOpciones").value;
-                if (!registroId) {
-                    console.log("Por favor, ingresa un ID válido para eliminar el registro.");
-                    return;
-                }
-                remove(ref(database, 'Naim/${registroId}'));
-                console.log("Registro eliminado con éxito.");
+            const nombre = document.getElementById("nombre").value;
+            const apellido = document.getElementById("apellido").value;
+            const edad = document.getElementById("edad").value;
+            const direccion = document.getElementById("direccion").value;
+            const telefono = document.getElementById("telefono").value;
+
+            const updates = {
+                name: nombre,
+                lastname: apellido,
+                age: edad,
+                address: direccion,
+                telephone: telefono
+            };
+            update(ref(database, `Naim/${registroId}`), updates);
+            console.log("Registro actualizado con éxito.");
+        };
+
+        window.eliminarRegistro = function () {
+            const registroId = document.getElementById("idOpciones").value;
+            if (!registroId) {
+                console.log("Por favor, ingresa un ID válido para eliminar el registro.");
+                return;
             }
-       
+            remove(ref(database, `Naim/${registroId}`));
+            console.log("Registro eliminado con éxito.");
+        };
     </script>
-
-    <!-- Add Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
