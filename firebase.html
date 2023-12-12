@@ -158,7 +158,7 @@
             return /^[0-9]+$/.test(cadena);
         }
 
-        // Función para crear o actualizar un doctor
+        
         window.crearDoctor = function () {
             const nombre = document.getElementById("nombre").value;
             const especialidad = document.getElementById("especialidad").value;
@@ -166,31 +166,29 @@
             const telefono = document.getElementById("telefono").value;
             const correo = document.getElementById("correo").value;
 
-            // Verificar si los campos obligatorios están llenos
+            
             if (!nombre || !especialidad) {
                 alert("Por favor, complete los campos obligatorios");
                 return;
             }
 
-            // Validar que el nombre contenga solo letras
+    
             if (!contieneSoloLetras(nombre)) {
                 alert("El campo 'Nombre' debe contener solo letras.");
                 return;
             }
 
-            // Validar que la especialidad contenga solo letras
+            
             if (!contieneSoloLetras(especialidad)) {
                 alert("El campo 'Especialidad' debe contener solo letras.");
                 return;
             }
 
-            // Validar que el telefono contenga solo números
             if (telefono && !contieneSoloNumeros(telefono)) {
                 alert("El campo 'Teléfono' debe contener solo números.");
                 return;
             }
 
-            // Validar que el correo tenga un formato válido
             if (correo && !/\S+@\S+\.\S+/.test(correo)) {
                 alert("Ingrese un correo electrónico válido.");
                 return;
@@ -221,11 +219,10 @@
 
             // Limpiar el formulario después de crear o actualizar un doctor
             limpiarFormulario();
-            // Actualizar la lista de doctores
             actualizarListaDoctores();
         }
 
-        // Función para llenar los campos del formulario al editar un doctor
+        
         window.editarDoctor = function (id) {
             doctorIdToEdit = id;
             const databaseRef = ref(database, `NaimCedeno/${id}`);
@@ -258,7 +255,7 @@
             }
         }
 
-        // Función para resetear el formulario
+        
         function limpiarFormulario() {
             document.getElementById("doctorForm").reset();
         }
@@ -292,7 +289,7 @@
             });
         }
 
-        // Cargar la lista inicial de doctores
+        
         actualizarListaDoctores();
     </script>
 </body>
