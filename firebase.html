@@ -178,38 +178,34 @@
 
     <script type="module">
         // Importar las funciones necesarias desde los SDK que necesitas
-        
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBMJsVpnbOwVOiVNbTZScZdet9qlGigDL0",
-    authDomain: "conexion-8ec0d.firebaseapp.com",
-    databaseURL: "https://conexion-8ec0d-default-rtdb.firebaseio.com",
-    projectId: "conexion-8ec0d",
-    storageBucket: "conexion-8ec0d.appspot.com",
-    messagingSenderId: "679910299749",
-    appId: "1:679910299749:web:9800b464879628b4850e8c"
-  };
+        // Tu configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMJsVpnbOwVOiVNbTZScZdet9qlGigDL0",
+            authDomain: "conexion-8ec0d.firebaseapp.com",
+            databaseURL: "https://conexion-8ec0d-default-rtdb.firebaseio.com",
+            projectId: "conexion-8ec0d",
+            storageBucket: "conexion-8ec0d.appspot.com",
+            messagingSenderId: "679910299749",
+            appId: "1:679910299749:web:9800b464879628b4850e8c"
+        };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    let doctorIdToEdit = null;
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        let doctorIdToEdit = null;
 
-// Función para validar que la cadena contenga solo letras
-function contieneSoloLetras(cadena) {
-    return /^[a-zA-Z\s]+$/.test(cadena);
-}
+        // Función para validar que la cadena contenga solo letras
+        function contieneSoloLetras(cadena) {
+            return /^[a-zA-Z\s]+$/.test(cadena);
+        }
 
-// Función para validar que la cadena contenga solo números
-function contieneSoloNumeros(cadena) {
-    return /^[0-9]+$/.test(cadena);
-}
-    // Verificar si los campos obligatorios están llenos
+        // Función para validar que la cadena contenga solo números
+        function contieneSoloNumeros(cadena) {
+            return /^[0-9]+$/.test(cadena);
+        }
 
         // Función para crear o actualizar un doctor
         window.crearDoctor = function () {
@@ -218,40 +214,36 @@ function contieneSoloNumeros(cadena) {
             const direccion = document.getElementById("direccion").value;
             const telefono = document.getElementById("telefono").value;
             const correo = document.getElementById("correo").value;
-            
-             // Verificar si los campos obligatorios están llenos
-             if (!nombre || !especialidad) {
-                alert("Por favor, complete los campos obligatorios:");
+
+            // Verificar si los campos obligatorios están llenos
+            if (!nombre || !especialidad) {
+                alert("Por favor, complete los campos obligatorios: Nombre y Especialidad");
                 return;
             }
-            if (!nombre || !especialidad) {
-        alert("Por favor, complete los campos obligatorios ");
-        return;
-    }
 
-    // Validar que el nombre contenga solo letras
-    if (!contieneSoloLetras(nombre)) {
-        alert("El campo 'Nombre' debe contener solo letras.");
-        return;
-    }
+            // Validar que el nombre contenga solo letras
+            if (!contieneSoloLetras(nombre)) {
+                alert("El campo 'Nombre' debe contener solo letras.");
+                return;
+            }
 
-    // Validar que la especialidad contenga solo letras
-    if (!contieneSoloLetras(especialidad)) {
-        alert("El campo 'Especialidad' debe contener solo letras.");
-        return;
-    }
+            // Validar que la especialidad contenga solo letras
+            if (!contieneSoloLetras(especialidad)) {
+                alert("El campo 'Especialidad' debe contener solo letras.");
+                return;
+            }
 
-    // Validar que el telefono contenga solo números
-    if (telefono && !contieneSoloNumeros(telefono)) {
-        alert("El campo 'Teléfono' debe contener solo números.");
-        return;
-    }
+            // Validar que el telefono contenga solo números
+            if (telefono && !contieneSoloNumeros(telefono)) {
+                alert("El campo 'Teléfono' debe contener solo números.");
+                return;
+            }
 
-    // Validar que el correo tenga un formato válido
-    if (correo && !/\S+@\S+\.\S+/.test(correo)) {
-        alert("Ingrese un correo electrónico válido.");
-        return;
-    }
+            // Validar que el correo tenga un formato válido
+            if (correo && !/\S+@\S+\.\S+/.test(correo)) {
+                alert("Ingrese un correo electrónico válido.");
+                return;
+            }
 
             if (doctorIdToEdit) {
                 // Actualizar doctor existente
@@ -304,7 +296,7 @@ function contieneSoloNumeros(cadena) {
         window.eliminarDoctor = function (id) {
             const confirmacion = confirm("¿Está seguro de eliminar este doctor?");
             if (confirmacion) {
-                remove(ref(database, `doctores/${id}`));
+                remove(ref(database, `NaimCedeno/${id}`));
                 // Limpiar el formulario después de eliminar un doctor
                 limpiarFormulario();
                 doctorIdToEdit = null;
