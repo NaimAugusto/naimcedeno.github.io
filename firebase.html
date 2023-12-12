@@ -59,6 +59,23 @@
             background-color: #45a049;
         }
 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+
         ul {
             list-style-type: none;
             padding: 0;
@@ -121,11 +138,23 @@
     <label for="correo">Correo Electrónico:</label>
     <input type="email" id="correo" name="correo">
 
-    <button type="button" onclick="guardarDoctor()">Guardar</button>
+    <button type="button" onclick="crearDoctor()">Registrar</button>
 </form>
 
-<!-- Lista de Doctores -->
-<ul id="listaDoctores"></ul>
+<!-- Lista de Doctores en una tabla -->
+<table id="tablaDoctores">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Especialidad</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Correo Electrónico</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="bodyTablaDoctores"></tbody>
+</table>
 
 <script type="module">
     // Import the functions you need from the SDKs you need
@@ -148,32 +177,55 @@
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    function guardarDoctor() {
+    // Function to create a new doctor
+    window.crearDoctor = function () {
         const nombre = document.getElementById("nombre").value;
         const especialidad = document.getElementById("especialidad").value;
         const direccion = document.getElementById("direccion").value;
         const telefono = document.getElementById("telefono").value;
         const correo = document.getElementById("correo").value;
 
-        if (nombre && especialidad) {
-            const nuevoDoctor = {
-                nombre,
-                especialidad,
-                direccion,
-                telefono,
-                correo
-            };
+        push(ref(database, 'doctores'), {
+            nombre: nombre,
+            especialidad: especialidad,
+            direccion: direccion,
+            telefono: telefono,
+            correo: correo
+        });
 
-            push(ref(database, 'doctores'), nuevoDoctor);
-            document.getElementById("doctorForm").reset();
-        } else {
-            alert("Nombre y Especialidad son campos obligatorios.");
+        // Clear the form after creating a new doctor
+        document.getElementById("doctorForm").reset();
+    }
+
+    // Function to update a doctor
+    window.editarDoctor = function (id) {
+        const nombre = prompt("Ingrese el nuevo nombre:", "");
+        const especialidad = prompt("Ingrese la nueva especialidad:", "");
+        const direccion = prompt("Ingrese la nueva dirección:", "");
+        const telefono = prompt("Ingrese el nuevo teléfono:", "");
+        const correo = prompt("Ingrese el nuevo correo electrónico:", "");
+
+        update(ref(database, `doctores/${id}`), {
+            nombre: nombre,
+            especialidad: especialidad,
+            direccion: direccion,
+            telefono: telefono,
+            correo: correo
+        });
+    }
+
+    // Function to delete a doctor
+    window.eliminarDoctor = function (id) {
+        const confirmacion = confirm("¿Está seguro de eliminar este doctor?");
+        if (confirmacion) {
+            remove(ref(database, `doctores/${id}`));
         }
     }
 
+    // Function to render the list of doctors in a table
     function actualizarListaDoctores() {
-        const listaDoctores = document.getElementById("listaDoctores");
-        listaDoctores.innerHTML = "";
+        const bodyTablaDoctores = document.getElementById("bodyTablaDoctores");
+        bodyTablaDoctores.innerHTML = "";
 
         const databaseRef = ref(database, 'doctores');
         onValue(databaseRef, (snapshot) => {
@@ -181,46 +233,25 @@
             if (data) {
                 Object.keys(data).forEach((doctorId) => {
                     const doctor = data[doctorId];
-                    const li = document.createElement("li");
-                    li.innerHTML = `
-                        <strong>${doctor.nombre}</strong>
-                        <p>Especialidad: ${doctor.especialidad}</p>
-                        <p>Dirección: ${doctor.direccion || "No especificada"}</p>
-                        <p>Teléfono: ${doctor.telefono || "No especificado"}</p>
-                        <p>Correo: ${doctor.correo || "No especificado"}</p>
-                        <button onclick="editarDoctor('${doctorId}')">Editar</button>
-                        <button onclick="eliminarDoctor('${doctorId}')">Eliminar</button>
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${doctor.nombre}</td>
+                        <td>${doctor.especialidad}</td>
+                        <td>${doctor.direccion || ""}</td>
+                        <td>${doctor.telefono || ""}</td>
+                        <td>${doctor.correo || ""}</td>
+                        <td>
+                            <button onclick="editarDoctor('${doctorId}')">Editar</button>
+                            <button onclick="eliminarDoctor('${doctorId}')">Eliminar</button>
+                        </td>
                     `;
-                    listaDoctores.appendChild(li);
+                    bodyTablaDoctores.appendChild(row);
                 });
             }
         });
     }
 
-    function editarDoctor(doctorId) {
-        const databaseRef = ref(database, `doctores/${doctorId}`);
-        onValue(databaseRef, (snapshot) => {
-            const doctor = snapshot.val();
-            if (doctor) {
-                document.getElementById("nombre").value = doctor.nombre || "";
-                document.getElementById("especialidad").value = doctor.especialidad || "";
-                document.getElementById("direccion").value = doctor.direccion || "";
-                document.getElementById("telefono").value = doctor.telefono || "";
-                document.getElementById("correo").value = doctor.correo || "";
-
-                // Eliminar el doctor después de cargar los datos para evitar duplicados
-                eliminarDoctor(doctorId);
-            }
-        });
-    }
-
-    function eliminarDoctor(doctorId) {
-        if (confirm("¿Estás seguro de que deseas eliminar este doctor?")) {
-            remove(ref(database, `doctores/${doctorId}`));
-        }
-    }
-
-    // Cargar la lista de doctores al cargar la página
+    // Load initial list of doctors
     actualizarListaDoctores();
 </script>
 
