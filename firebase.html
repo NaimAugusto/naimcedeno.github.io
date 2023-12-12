@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,7 +66,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
@@ -117,164 +119,169 @@
         }
     </style>
 </head>
+
 <body>
 
-<h2>Registro de Doctor</h2>
+    <h2>Registro de Doctor</h2>
 
-<!-- Formulario de Registro -->
-<form id="doctorForm">
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" required>
+    <!-- Formulario de Registro -->
+    <form id="doctorForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
 
-    <label for="especialidad">Especialidad:</label>
-    <input type="text" id="especialidad" name="especialidad" required>
+        <label for="especialidad">Especialidad:</label>
+        <input type="text" id="especialidad" name="especialidad" required>
 
-    <label for="direccion">Dirección:</label>
-    <input type="text" id="direccion" name="direccion">
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" name="direccion">
 
-    <label for="telefono">Teléfono:</label>
-    <input type="tel" id="telefono" name="telefono">
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono">
 
-    <label for="correo">Correo Electrónico:</label>
-    <input type="email" id="correo" name="correo">
+        <label for="correo">Correo Electrónico:</label>
+        <input type="email" id="correo" name="correo">
 
-    <button type="button" onclick="crearDoctor()">Registrar</button>
-</form>
+        <button type="button" onclick="crearDoctor()">Registrar</button>
+    </form>
 
-<!-- Lista de Doctores en una tabla -->
-<table id="tablaDoctores">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Especialidad</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Correo Electrónico</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody id="bodyTablaDoctores"></tbody>
-</table>
+    <!-- Lista de Doctores en una tabla -->
+    <table id="tablaDoctores">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Especialidad</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Correo Electrónico</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="bodyTablaDoctores"></tbody>
+    </table>
 
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-        apiKey: "your-api-key",
-        authDomain: "pruebasep-97ecc.firebaseapp.com",
-        databaseURL: "https://pruebasep-97ecc-default-rtdb.firebaseio.com/",
-        projectId: "pruebasep-97ecc",
-        storageBucket: "pruebasep-97ecc.appspot.com",
-        messagingSenderId: "374094584102",
-        appId: "1:374094584102:web:a26de0b0aba01b94de89e7",
-        measurementId: "G-L7005Z6GJ9"
-    };
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "your-api-key",
+            authDomain: "pruebasep-97ecc.firebaseapp.com",
+            databaseURL: "https://pruebasep-97ecc-default-rtdb.firebaseio.com/",
+            projectId: "pruebasep-97ecc",
+            storageBucket: "pruebasep-97ecc.appspot.com",
+            messagingSenderId: "374094584102",
+            appId: "1:374094584102:web:a26de0b0aba01b94de89e7",
+            measurementId: "G-L7005Z6GJ9"
+        };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-    // Function to create a new doctor
-    window.crearDoctor = function () {
-        const nombre = document.getElementById("nombre").value;
-        const especialidad = document.getElementById("especialidad").value;
-        const direccion = document.getElementById("direccion").value;
-        const telefono = document.getElementById("telefono").value;
-        const correo = document.getElementById("correo").value;
+        let doctorIdToEdit = null;
 
-        if (doctorIdToEdit) {
-            // Updating existing doctor
-            update(ref(database, `doctores/${doctorIdToEdit}`), {
-                nombre: nombre,
-                especialidad: especialidad,
-                direccion: direccion,
-                telefono: telefono,
-                correo: correo
-            });
-            doctorIdToEdit = null;
-        } else {
-            // Creating a new doctor
-            push(ref(database, 'doctores'), {
-                nombre: nombre,
-                especialidad: especialidad,
-                direccion: direccion,
-                telefono: telefono,
-                correo: correo
-            });
-        }
+        // Function to create or update a doctor
+        window.crearDoctor = function () {
+            const nombre = document.getElementById("nombre").value;
+            const especialidad = document.getElementById("especialidad").value;
+            const direccion = document.getElementById("direccion").value;
+            const telefono = document.getElementById("telefono").value;
+            const correo = document.getElementById("correo").value;
 
-        // Clear the form after creating or updating a doctor
-        document.getElementById("doctorForm").reset();
-        actualizarListaDoctores();
-    }
-
-    // Function to fill the form fields when editing a doctor
-    window.editarDoctor = function (id) {
-        doctorIdToEdit = id;
-        const databaseRef = ref(database, `doctores/${id}`);
-        onValue(databaseRef, (snapshot) => {
-            const doctor = snapshot.val();
-            if (doctor) {
-                document.getElementById("nombre").value = doctor.nombre || "";
-                document.getElementById("especialidad").value = doctor.especialidad || "";
-                document.getElementById("direccion").value = doctor.direccion || "";
-                document.getElementById("telefono").value = doctor.telefono || "";
-                document.getElementById("correo").value = doctor.correo || "";
-                // Change the button text to "Actualizar"
-                document.querySelector("button").innerText = "Actualizar";
-            }
-        });
-    }
-
-    // Function to delete a doctor
-    window.eliminarDoctor = function (id) {
-        const confirmacion = confirm("¿Está seguro de eliminar este doctor?");
-        if (confirmacion) {
-            remove(ref(database, `doctores/${id}`));
-            actualizarListaDoctores();
-            // Clear the form after deleting a doctor
-            document.getElementById("doctorForm").reset();
-            doctorIdToEdit = null;
-        }
-    }
-
-    // Function to render the list of doctors in a table
-    window.actualizarListaDoctores() {
-        const bodyTablaDoctores = document.getElementById("bodyTablaDoctores");
-        bodyTablaDoctores.innerHTML = "";
-
-        const databaseRef = ref(database, 'doctores');
-        onValue(databaseRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                Object.keys(data).forEach((doctorId) => {
-                    const doctor = data[doctorId];
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${doctor.nombre}</td>
-                        <td>${doctor.especialidad}</td>
-                        <td>${doctor.direccion || ""}</td>
-                        <td>${doctor.telefono || ""}</td>
-                        <td>${doctor.correo || ""}</td>
-                        <td>
-                            <button onclick="editarDoctor('${doctorId}')">Editar</button>
-                            <button onclick="eliminarDoctor('${doctorId}')">Eliminar</button>
-                        </td>
-                    `;
-                    bodyTablaDoctores.appendChild(row);
+            if (doctorIdToEdit) {
+                // Updating existing doctor
+                update(ref(database, `doctores/${doctorIdToEdit}`), {
+                    nombre: nombre,
+                    especialidad: especialidad,
+                    direccion: direccion,
+                    telefono: telefono,
+                    correo: correo
+                });
+                doctorIdToEdit = null;
+            } else {
+                // Creating a new doctor
+                push(ref(database, 'doctores'), {
+                    nombre: nombre,
+                    especialidad: especialidad,
+                    direccion: direccion,
+                    telefono: telefono,
+                    correo: correo
                 });
             }
-        });
 
-        // Change the button text back to "Registrar"
-        document.querySelector("button").innerText = "Registrar";
-    }
+            // Clear the form after creating or updating a doctor
+            limpiarFormulario();
+        }
 
-    // Load initial list of doctors
-    actualizarListaDoctores();
-</script>
+        // Function to fill the form fields when editing a doctor
+        window.editarDoctor = function (id) {
+            doctorIdToEdit = id;
+            const databaseRef = ref(database, `doctores/${id}`);
+            onValue(databaseRef, (snapshot) => {
+                const doctor = snapshot.val();
+                if (doctor) {
+                    document.getElementById("nombre").value = doctor.nombre || "";
+                    document.getElementById("especialidad").value = doctor.especialidad || "";
+                    document.getElementById("direccion").value = doctor.direccion || "";
+                    document.getElementById("telefono").value = doctor.telefono || "";
+                    document.getElementById("correo").value = doctor.correo || "";
+                }
+            });
+        }
+
+        // Function to delete a doctor
+        window.eliminarDoctor = function (id) {
+            const confirmacion = confirm("¿Está seguro de eliminar este doctor?");
+            if (confirmacion) {
+                remove(ref(database, `doctores/${id}`));
+                // Clear the form after deleting a doctor
+                limpiarFormulario();
+                doctorIdToEdit = null;
+            }
+        }
+
+        // Function to reset the form
+        function limpiarFormulario() {
+            document.getElementById("doctorForm").reset();
+            // Change the button text back to "Registrar"
+            document.querySelector("button").innerText = "Registrar";
+        }
+
+        // Function to render the list of doctors in a table
+        function actualizarListaDoctores() {
+            const bodyTablaDoctores = document.getElementById("bodyTablaDoctores");
+            bodyTablaDoctores.innerHTML = "";
+
+            const databaseRef = ref(database, 'doctores');
+            onValue(databaseRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    Object.keys(data).forEach((doctorId) => {
+                        const doctor = data[doctorId];
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${doctor.nombre}</td>
+                            <td>${doctor.especialidad}</td>
+                            <td>${doctor.direccion || ""}</td>
+                            <td>${doctor.telefono || ""}</td>
+                            <td>${doctor.correo || ""}</td>
+                            <td>
+                                <button onclick="editarDoctor('${doctorId}')">Editar</button>
+                                <button onclick="eliminarDoctor('${doctorId}')">Eliminar</button>
+                            </td>
+                        `;
+                        bodyTablaDoctores.appendChild(row);
+                    });
+                }
+            });
+        }
+
+        // Load initial list of doctors
+        actualizarListaDoctores();
+    </script>
+
 </body>
+
 </html>
