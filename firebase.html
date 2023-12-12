@@ -5,136 +5,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor</title>
-<style>
+    <style>
         /* Tu código CSS aquí... */
         body {
-    font-family: 'Arial', sans-serif;
-    background-color: #255cd1;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
+            font-family: 'Arial', sans-serif;
+            background-color: #255cd1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
-h2 {
-    color: #333;
-}
+        h2 {
+            color: #333;
+        }
 
-form {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    margin-bottom: 20px;
-}
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin-bottom: 20px;
+        }
 
-label {
-    display: block;
-    margin-bottom: 10px;
-    color: #0a5796;
-}
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #0a5796;
+        }
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 12px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-button {
-    
-    
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: background-color 0.3s ease;
-}
-button.registrar {
-    background-color: #003558;
-}
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.3s ease;
+        }
 
-button:hover {
-    background-color: #45a049;
-}
+        button.registrar {
+            background-color: #003558;
+        }
 
-/* Estilo específico para botón Editar */
-button.editar {
-    background-color: #3498db;
-}
+        button:hover {
+            background-color: #45a049;
+        }
 
-/* Estilo específico para botón Eliminar */
-button.eliminar {
-    background-color: #e74c3c;
-}
+        /* Estilo específico para botón Editar */
+        button.editar {
+            background-color: #3498db;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
+        /* Estilo específico para botón Eliminar */
+        button.eliminar {
+            /* Puedes quitar o ajustar este estilo según tus preferencias */
+            background-color: #e74c3c;
+        }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-th {
-    background-color: #4c90af;
-    color: white;
-}
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
+        th {
+            background-color: #4c90af;
+            color: white;
+        }
 
-li {
-    background-color: #ffffff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-}
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
 
-li strong {
-    font-size: 20px;
-    margin-bottom: 12px;
-}
+        li {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
 
-li p {
-    margin: 0;
-    color: #555;
-}
+        li strong {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
 
-/* Estilo específico para botón Eliminar en lista de doctores */
-li button.eliminar {
-    background-color: #e74c3c;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        li p {
+            margin: 0;
+            color: #555;
+        }
 
-/* Estilo específico para botón Eliminar en lista de doctores al pasar el ratón */
-li button.eliminar:hover {
-    background-color: #c9302c;
-}
+        /* Estilo específico para botón Eliminar en lista de doctores */
+        li button.eliminar {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-</style>
+        /* Estilo específico para botón Eliminar en lista de doctores al pasar el ratón */
+        li button.eliminar:hover {
+            background-color: #c9302c;
+        }
+    </style>
 </head>
 
 <body>
