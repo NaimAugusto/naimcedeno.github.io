@@ -5,214 +5,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor</title>
-    <style>
-        /* Estilos CSS ... (tu código CSS sigue aquí) */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
+<style>
+        /* Tu código CSS aquí... */
+    body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
 
-        h2 {
-            color: #333;
-        }
+h2 {
+    color: #333;
+}
 
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            margin-bottom: 20px;
-        }
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin-bottom: 20px;
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-        }
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-        button {
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 8px;
-        }
+button {
+    background-color: #5b4caf;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+}
 
-        button:hover {
-            background-color: #45a049;
-        }
 
-        /* Estilo específico para botón Editar */
-        button.editar {
-            background-color: #3498db;
-        }
 
-        /* Estilo específico para botón Eliminar */
-        button.eliminar {
-            background-color: #e74c3c;
-        }
+/* Estilo específico para botón Editar */
+button.editar {
+    background-color: #3498db;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+/* Estilo específico para botón Eliminar */
+button.eliminar {
+    background-color: #e74c3c;
+}
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
-        th {
-            background-color: #4caf50;
-            color: white;
-        }
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
+th {
+    background-color: #a8af4c;
+    color: white;
+}
 
-        li {
-            background-color: #fff;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
 
-        li strong {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
+li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
 
-        li p {
-            margin: 0;
-            color: #555;
-        }
+li strong {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
 
-        /* Estilo específico para botón Eliminar en lista de doctores */
-        li button.eliminar {
-            background-color: #e74c3c;
-            color: white;
-        }
+li p {
+    margin: 0;
+    color: #555;
+}
 
-        /* Estilo específico para botón Eliminar en lista de doctores al pasar el ratón */
-        li button.eliminar:hover {
-            background-color: #c9302c;
-        }
-    </style>
-</head>
+li button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+}
 
-<body>
+/* Estilo específico para botón Eliminar en lista de doctores */
+li button.eliminar {
+    background-color: #e74c3c;
+    color: white;
+}
 
-    <h2>Registro de Doctor</h2>
-
-    <!-- Formulario de Registro -->
-    <form id="doctorForm">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-
-        <label for="especialidad">Especialidad:</label>
-        <input type="text" id="especialidad" name="especialidad" required>
-
-        <label for="direccion">Dirección:</label>
-        <input type="text" id="direccion" name="direccion">
-
-        <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono">
-
-        <label for="correo">Correo Electrónico:</label>
-        <input type="email" id="correo" name="correo">
-
-        <button type="button" onclick="crearDoctor()">Registrar</button>
-    </form>
-
-    <!-- Lista de Doctores en una tabla -->
-    <table id="tablaDoctores">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Especialidad</th>
-                <th>Dirección</th>
-                <th>Teléfono</th>
-                <th>Correo Electrónico</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="bodyTablaDoctores"></tbody>
-    </table>
-
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "your-api-key",
-            authDomain: "pruebasep-97ecc.firebaseapp.com",
-            databaseURL: "https://pruebasep-97ecc-default-rtdb.firebaseio.com/",
-            projectId: "pruebasep-97ecc",
-            storageBucket: "pruebasep-97ecc.appspot.com",
-            messagingSenderId: "374094584102",
-            appId: "1:374094584102:web:a26de0b0aba01b94de89e7",
-            measurementId: "G-L7005Z6GJ9"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
-        let doctorIdToEdit = null;
-
-        // Function to create or update a doctor
-        window.crearDoctor = function () {
-            const nombre = document.getElementById("nombre").value;
-            const especialidad = document.getElementById("especialidad").value;
-            const direccion = document.getElementById("direccion").value;
-            const telefono = document.getElementById("telefono").value;
-            const correo = document.getElementById("correo").value;
-
-            if (doctorIdToEdit) {
-                // Updating existing doctor
-                update(ref(database, `doctores/${doctorIdToEdit}`), {
-                    nombre: nombre,
-                    especialidad: especialidad,
-                    direccion: direccion,
-                    telefono: telefono,
-                    correo: correo
-                });
-                doctorIdToEdit = null;
-                // Change the button text back to "Registrar"
-                document.querySelector("button").innerText = "Registrar";
-            } else {
-                // Creating a new doctor
-                push(ref(database, '
-
+/* Estilo específico para botón Eliminar en lista de doctores al pasar el ratón */
+li button.eliminar:hover {
+    background-color: #c9302c;
+}
 
 </style>
 </head>
@@ -373,8 +290,8 @@
                             <td>${doctor.telefono || ""}</td>
                             <td>${doctor.correo || ""}</td>
                             <td>
-                                <button onclick="editarDoctor('${doctorId}') ">Editar</button>
-                                <button onclick="eliminarDoctor('${doctorId}')">Eliminar</button>
+                                <button onclick="editarDoctor('${doctorId}') background-color: #3498db">Editar</button>
+                                <button onclick="eliminarDoctor('${doctorId}')background-color: #e74c3c">Eliminar</button>
                             </td>
                         `;
                         bodyTablaDoctores.appendChild(row);
