@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Doctor</title>
     <style>
-        /* Estilos CSS ... (tu código CSS sigue aquí) */
+        /* Tu código CSS aquí... */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
@@ -54,28 +54,10 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 8px;
         }
 
         button:hover {
             background-color: #45a049;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #4caf50;
-            color: white;
         }
 
         ul {
@@ -160,11 +142,11 @@
     </table>
 
     <script type="module">
-        // Import the functions you need from the SDKs you need
+        // Importar las funciones necesarias desde los SDK que necesitas
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
         import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
-        // Your web app's Firebase configuration
+        // Tu configuración de Firebase
         const firebaseConfig = {
             apiKey: "your-api-key",
             authDomain: "pruebasep-97ecc.firebaseapp.com",
@@ -176,14 +158,15 @@
             measurementId: "G-L7005Z6GJ9"
         };
 
-        // Initialize Firebase
+        // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
+        // Variable para almacenar el ID del doctor en edición
         let doctorIdToEdit = null;
 
-        // Function to create or update a doctor
-        window.crearDoctor = function () {
+        // Función para crear o actualizar un doctor
+        function crearDoctor() {
             const nombre = document.getElementById("nombre").value;
             const especialidad = document.getElementById("especialidad").value;
             const direccion = document.getElementById("direccion").value;
@@ -191,7 +174,7 @@
             const correo = document.getElementById("correo").value;
 
             if (doctorIdToEdit) {
-                // Updating existing doctor
+                // Actualizar doctor existente
                 update(ref(database, `doctores/${doctorIdToEdit}`), {
                     nombre: nombre,
                     especialidad: especialidad,
@@ -200,10 +183,10 @@
                     correo: correo
                 });
                 doctorIdToEdit = null;
-                // Change the button text back to "Registrar"
+                // Cambiar el texto del botón de nuevo a "Registrar"
                 document.querySelector("button").innerText = "Registrar";
             } else {
-                // Creating a new doctor
+                // Crear un nuevo doctor
                 push(ref(database, 'doctores'), {
                     nombre: nombre,
                     especialidad: especialidad,
@@ -213,12 +196,12 @@
                 });
             }
 
-            // Clear the form after creating or updating a doctor
+            // Limpiar el formulario después de crear o actualizar un doctor
             limpiarFormulario();
         }
 
-        // Function to fill the form fields when editing a doctor
-        window.editarDoctor = function (id) {
+        // Función para llenar los campos del formulario al editar un doctor
+        function editarDoctor(id) {
             doctorIdToEdit = id;
             const databaseRef = ref(database, `doctores/${id}`);
             onValue(databaseRef, (snapshot) => {
@@ -229,31 +212,31 @@
                     document.getElementById("direccion").value = doctor.direccion || "";
                     document.getElementById("telefono").value = doctor.telefono || "";
                     document.getElementById("correo").value = doctor.correo || "";
-                    // Change the button text to "Actualizar"
+                    // Cambiar el texto del botón a "Actualizar"
                     document.querySelector("button").innerText = "Actualizar";
                 }
             });
         }
 
-        // Function to delete a doctor
-        window.eliminarDoctor = function (id) {
+        // Función para eliminar un doctor
+        function eliminarDoctor(id) {
             const confirmacion = confirm("¿Está seguro de eliminar este doctor?");
             if (confirmacion) {
                 remove(ref(database, `doctores/${id}`));
-                // Clear the form after deleting a doctor
+                // Limpiar el formulario después de eliminar un doctor
                 limpiarFormulario();
                 doctorIdToEdit = null;
-                // Change the button text back to "Registrar"
+                // Cambiar el texto del botón de nuevo a "Registrar"
                 document.querySelector("button").innerText = "Registrar";
             }
         }
 
-        // Function to reset the form
+        // Función para resetear el formulario
         function limpiarFormulario() {
             document.getElementById("doctorForm").reset();
         }
 
-        // Function to render the list of doctors in a table
+        // Función para renderizar la lista de doctores en una tabla
         function actualizarListaDoctores() {
             const bodyTablaDoctores = document.getElementById("bodyTablaDoctores");
             bodyTablaDoctores.innerHTML = "";
@@ -282,7 +265,7 @@
             });
         }
 
-        // Load initial list of doctors
+        // Cargar la lista inicial de doctores
         actualizarListaDoctores();
     </script>
 
