@@ -203,16 +203,15 @@
         window.crearDoctor = function () {
             const nombre = document.getElementById("nombre").value;
             const especialidad = document.getElementById("especialidad").value;
-
-            // Verificar si los campos obligatorios están llenos
-            if (!nombre || !especialidad) {
-                alert("Por favor, complete los campos obligatorios: Nombre y Especialidad");
-                return;
-            }
-
             const direccion = document.getElementById("direccion").value;
             const telefono = document.getElementById("telefono").value;
             const correo = document.getElementById("correo").value;
+            
+             // Verificar si los campos obligatorios están llenos
+             if (!nombre || !especialidad) {
+                alert("Por favor, complete los campos obligatorios:");
+                return;
+            }
 
             if (doctorIdToEdit) {
                 // Actualizar doctor existente
@@ -243,8 +242,75 @@
             actualizarListaDoctores();
         }
 
-        // Otras funciones ...
+        // Función para llenar los campos del formulario al editar un doctor
+        window.editarDoctor = function (id) {
+            doctorIdToEdit = id;
+            const databaseRef = ref(database, `doctores/${id}`);
+            onValue(databaseRef, (snapshot) => {
+                const doctor = snapshot.val();
+                if (doctor) {
+                    document.getElementById("nombre").value = doctor.nombre || "";
+                    document.getElementById("especialidad").value = doctor.especialidad || "";
+                    document.getElementById("direccion").value = doctor.direccion || "";
+                    document.getElementById("telefono").value = doctor.telefono || "";
+                    document.getElementById("correo").value = doctor.correo || "";
+                    // Cambiar el texto del botón a "Actualizar"
+                    document.querySelector("button").innerText = "Actualizar";
+                }
+            });
+        }
 
+        // Función para eliminar un doctor
+        window.eliminarDoctor = function (id) {
+            const confirmacion = confirm("¿Está seguro de eliminar este doctor?");
+            if (confirmacion) {
+                remove(ref(database, `doctores/${id}`));
+                // Limpiar el formulario después de eliminar un doctor
+                limpiarFormulario();
+                doctorIdToEdit = null;
+                // Cambiar el texto del botón de nuevo a "Registrar"
+                document.querySelector("button").innerText = "Registrar";
+                // Actualizar la lista de doctores
+                actualizarListaDoctores();
+            }
+        }
+
+        // Función para resetear el formulario
+        function limpiarFormulario() {
+            document.getElementById("doctorForm").reset();
+        }
+
+        // Función para renderizar la lista de doctores en una tabla
+        function actualizarListaDoctores() {
+            const bodyTablaDoctores = document.getElementById("bodyTablaDoctores");
+            bodyTablaDoctores.innerHTML = "";
+
+            const databaseRef = ref(database, 'doctores');
+            onValue(databaseRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    Object.keys(data).forEach((doctorId) => {
+                        const doctor = data[doctorId];
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${doctor.nombre}</td>
+                            <td>${doctor.especialidad}</td>
+                            <td>${doctor.direccion || ""}</td>
+                            <td>${doctor.telefono || ""}</td>
+                            <td>${doctor.correo || ""}</td>
+                            <td>
+                                <button onclick="editarDoctor('${doctorId}')">Editar</button>
+                                <button onclick="eliminarDoctor('${doctorId}')">Eliminar</button>
+                            </td>
+                        `;
+                        bodyTablaDoctores.appendChild(row);
+                    });
+                }
+            });
+        }
+
+        // Cargar la lista inicial de doctores
+        actualizarListaDoctores();
     </script>
 
 </body>
